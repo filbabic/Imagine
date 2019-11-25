@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "816192881495",
+    "firebase_url": "https://imagine-28b1f.firebaseio.com",
+    "project_id": "imagine-28b1f",
+    "storage_bucket": "imagine-28b1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816192881495:android:176175f70ac4e6a6867412",
+        "android_client_info": {
+          "package_name": "com.kolo.gorskih.tica.imagine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816192881495-mpqti4alk9mkqgv93se3gcrt7i3oqlu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP0x3DdDalkl0RrkLwafR2zBbrrF4ox94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816192881495-mpqti4alk9mkqgv93se3gcrt7i3oqlu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
