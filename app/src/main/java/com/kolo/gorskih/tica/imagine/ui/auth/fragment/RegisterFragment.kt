@@ -38,7 +38,7 @@ class RegisterFragment : BaseFragment(){
                 activity?.showFragment(R.id.fragmentContainer,LoginFragment(),false)
             }
             .addOnFailureListener {
-                toast(it.localizedMessage)
+                toast(it.localizedMessage ?: getString(R.string.registerError))
             }
     }
 }
