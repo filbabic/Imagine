@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Imagine</string>
+    <string name="login">Log In</string>
+    <string name="Name">Name</string>
+    <string name="Email">Email</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="noAccount">Don\'t have an account? Register here</string>
+    <string name="Register">Register</string>
+    <string name="haveAccount">Have an account? Log In</string>
+    <string name="RegistrationSuccess">Registration Successful, please Log In</string>
+    <string name="checkInput">Check your inputs</string>
+    <string name="Submit">Submit</string>
+    <string name="loginSuccess">Login successful</string>
+    <string name="loginError">Login Error</string>
+    <string name="PasswordAgain">Password Again</string>
+    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="registerError">Register Error</string>
 </resources>
