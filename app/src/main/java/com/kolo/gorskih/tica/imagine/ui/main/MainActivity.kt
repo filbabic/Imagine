@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             setLayoutManager(layoutManager)
             setController(controller)
         }
-        //TODO: Just mock, remove this after
+        //TODO: Just mock, remove this after you load pictures from Firebase and send them to controller
         val mainUI = MainUI(listOf(Image(1,"prva","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(2,"druga s jako dugackim i lijepim nazivom jer smo mi samo lijepi i zgodni ","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(3,"treca","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(4,"Zadnja","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg")))
         controller.setData(mainUI)
         ivCapture.setOnClickListener {
