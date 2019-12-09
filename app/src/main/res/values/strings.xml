@@ -17,4 +17,6 @@
     <string name="passwords_dont_match">Passwords don\'t match</string>
     <string name="registerError">Register Error</string>
     <string name="imagine">imagine</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
