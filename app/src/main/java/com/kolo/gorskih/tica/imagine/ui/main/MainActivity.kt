@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.kolo.gorskih.tica.imagine.Image
 import com.kolo.gorskih.tica.imagine.MainUI
 import com.kolo.gorskih.tica.imagine.R
+import com.kolo.gorskih.tica.imagine.ui.camera.CameraActivity
 import com.kolo.gorskih.tica.imagine.ui.view_holders.imageItemModelHolder
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,9 +18,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 private const val REQUEST_CODE_IMAGE_CAPTURE = 51
 const val KEY_PATH = "path"
 
-class MainActivity : AppCompatActivity(), MainActivityListener {
+class MainActivity : AppCompatActivity() {
 
-    private val controller : MainActivityController = MainActivityController(this)
+    private val controller : MainActivityController = MainActivityController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,48 +33,34 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
             setLayoutManager(layoutManager)
             setController(controller)
         }
-
+        //TODO: Just mock, remove this after
         val mainUI = MainUI(listOf(Image(1,"prva","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(2,"druga s jako dugackim i lijepim nazivom jer smo mi samo lijepi i zgodni ","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(3,"treca","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"),Image(4,"Zadnja","https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg")))
-
         controller.setData(mainUI)
-
-        //TODO: this will go when on capture button click
-        /*startActivityForResult(
-            Intent(this, CameraActivity::class.java),
-            REQUEST_CODE_IMAGE_CAPTURE
-        )*/
+        ivCapture.setOnClickListener {
+            startActivityForResult(Intent(this, CameraActivity::class.java),REQUEST_CODE_IMAGE_CAPTURE)
+        }
+        ivGallery.setOnClickListener {
+            //TODO: open gallery for selecting a picture
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        //TODO: Uncomment this when epoxy is done
-        /*if (requestCode == REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val filePath = data?.getStringExtra(KEY_PATH) ?: ""
 
             if (filePath.isNotBlank()) {
-                Glide.with(this)
+                //TODO: define where this goes
+                /*Glide.with(this)
                     .load(filePath)
-                    .into(capturedImage)
+                    .into(capturedImage)*/
             }
-        }*/
-    }
-
-    override fun takePicture() {
-        //TODO
-    }
-
-    override fun openGallery() {
-        //TODO
+        }
     }
 }
 
-interface MainActivityListener {
-    fun takePicture()
-    fun openGallery()
-}
-
-class MainActivityController(private val listener : MainActivityListener) : TypedEpoxyController<MainUI>(){
+class MainActivityController : TypedEpoxyController<MainUI>(){
     override fun buildModels(data: MainUI) {
         for(i in 1..20)
         data.images.forEachIndexed { index, image ->
