@@ -3,50 +3,70 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginLeft="@dimen/fragment_margin_left"
-              android:layout_marginRight="@dimen/fragment_margin_right"
-              android:layout_marginTop="@dimen/fragment_margin_top"
-              android:layout_marginBottom="@dimen/fragment_margin_bottom">
+              android:background="@color/botticelli_blue_CDD">
     <TextView
         android:id="@+id/tvTitleRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/imagine"
+        android:textSize="56sp"
         android:textColor="@android:color/black"
-        android:text="@string/Register"
+        android:textStyle="bold"
+        android:fontFamily="@font/beth_allen_regular"
         android:gravity="center"
-        android:textSize="@dimen/title"/>
+        android:layout_marginTop="80dp"/>
     <EditText
         android:id="@+id/etEmailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/Email"
-        android:inputType="textEmailAddress"/>
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginTop="30dp"
+        style="@style/input_tundra_nunito_20"/>
     <EditText
         android:id="@+id/etPasswordRegister"
-        android:layout_height="wrap_content"
+        android:hint="@string/password"
         android:layout_width="match_parent"
-        android:hint="@string/Password"
-        android:inputType="textPassword"/><EditText
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_marginStart="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginTop="48dp"
+        style="@style/input_tundra_nunito_20"/>
+    <EditText
         android:id="@+id/etPasswordRegisterRepeat"
-        android:layout_height="wrap_content"
+        android:hint="@string/repeat_password"
         android:layout_width="match_parent"
-        android:hint="@string/PasswordAgain"
-        android:inputType="textPassword"/>
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_marginStart="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginTop="48dp"
+        style="@style/input_tundra_nunito_20"/>
     <Button
         android:id="@+id/buttonRegister"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/Register"/>
-    <Space
+        android:text="@string/Register"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/nunito_regular"
+        android:textColor="@color/gallery_white_EBE"
+        android:textStyle="bold"
+        android:textSize="22sp"/>
     <TextView
         android:id="@+id/linkLogin"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:text="@string/haveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:textColor="@color/cloud_burst_blue_1C2"
+        android:layout_marginTop="22dp" />
 </LinearLayout>

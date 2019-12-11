@@ -9,11 +9,12 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/imagine_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/imagine_icon_rounded"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
         <activity android:name=".ui.auth.activity.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="botticelli_blue_CDD">#CDDAE9</color>
+    <color name="tundora_gray_454">#454545</color>
+    <color name="nepal_blue_8BA">#8BA3BF</color>
+    <color name="gallery_white_EBE">#EBEBEB</color>
+    <color name="cloud_burst_blue_1C2">#1C2541</color>
 </resources>
