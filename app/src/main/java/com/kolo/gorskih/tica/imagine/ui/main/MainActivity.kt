@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kolo.gorskih.tica.imagine.R
 import com.kolo.gorskih.tica.imagine.ui.camera.CameraActivity
+import com.kolo.gorskih.tica.imagine.ui.upload.UploadActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val REQUEST_CODE_IMAGE_CAPTURE = 51
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val filePath = data?.getStringExtra(KEY_PATH) ?: ""
 
+            startActivity(UploadActivity.newIntent(this, filePath))
+            return
             if (filePath.isNotBlank()) {
                 Glide.with(this)
                     .load(filePath)
