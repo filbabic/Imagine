@@ -1,9 +1,10 @@
 <resources>
+    <string name="app_name">Imagine</string>
     <string name="login">Log In</string>
     <string name="Name">Name</string>
-    <string name="Email">Email</string>
+    <string name="email">email</string>
     <string name="Username">Username</string>
-    <string name="Password">Password</string>
+    <string name="password">password</string>
     <string name="noAccount">Don\'t have an account? Register here</string>
     <string name="Register">Register</string>
     <string name="haveAccount">Have an account? Log In</string>
@@ -12,7 +13,10 @@
     <string name="Submit">Submit</string>
     <string name="loginSuccess">Login successful</string>
     <string name="loginError">Login Error</string>
-    <string name="PasswordAgain">Password Again</string>
+    <string name="repeat_password">repeat password</string>
     <string name="passwords_dont_match">Passwords don\'t match</string>
     <string name="registerError">Register Error</string>
+    <string name="imagine">imagine</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
