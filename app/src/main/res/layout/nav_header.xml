@@ -1,15 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/colorPrimaryDark">
-    <ImageView
-        android:layout_width="180dp"
-        android:layout_height="130dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@android:color/black"/>
+    android:orientation="vertical">
 
-</LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/headerCard"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:backgroundTint="@color/cloud_burst_blue_1C2"
+        android:elevation="8dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="start"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_margin="16dp"
+                android:gravity="start"
+                android:textColor="@color/gallery_white_EBE"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userAvatar"
+                tools:text="test@test_mail.com" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/uploadedImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_margin="16dp"
+        android:gravity="start"
+        android:text="@string/uploaded_images"
+        android:textAllCaps="true"
+        android:textColor="@color/cloud_burst_blue_1C2"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerCard" />
+
+    <TextView
+        android:id="@+id/uploadedImagesNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:textAllCaps="true"
+        android:textColor="@color/cloud_burst_blue_1C2"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/uploadedImages"
+        tools:text="24" />
+
+    <Button
+        android:id="@+id/logOut"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginBottom="16dp"
+        android:width="175dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/log_out"
+        android:textColor="@color/gallery_white_EBE"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

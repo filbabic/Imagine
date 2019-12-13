@@ -18,9 +18,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userId = authInteractor.getUserId()
-
-        if (userId.isNotBlank()) {
+        if (authInteractor.isLoggedIn()) {
             startActivity(Intent(this, MainActivity::class.java))
         } else {
             startActivity(Intent(this, AuthActivity::class.java))

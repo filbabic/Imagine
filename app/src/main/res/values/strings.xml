@@ -19,4 +19,6 @@
     <string name="imagine">imagine</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="uploaded_images">Uploaded images</string>
+    <string name="log_out">LOG OUT</string>
 </resources>
