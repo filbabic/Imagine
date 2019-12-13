@@ -1,11 +1,11 @@
-package com.kolo.gorskih.tica.imagine.storage
+package com.kolo.gorskih.tica.imagine.interaction
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,6 +16,7 @@ import java.io.File
  */
 class StorageInteractorImpl(
     private val baseStorage: StorageReference,
+    private val firebaseAuth: FirebaseAuth,
     private val context: Context
 ) : StorageInteractor {
 
@@ -41,8 +42,12 @@ class StorageInteractorImpl(
 
     override suspend fun uploadImage(file: Uri): Boolean = withContext(Dispatchers.Default) {
         val lastSegment = file.lastPathSegment ?: return@withContext false
+        val userId = firebaseAuth.currentUser?.uid ?: "unknown"
 
-        val task = baseStorage.child(lastSegment).putFile(file)
+        val task = baseStorage
+            .child(userId)
+            .child(lastSegment)
+            .putFile(file)
 
         try {
             val result = Tasks.await(task)

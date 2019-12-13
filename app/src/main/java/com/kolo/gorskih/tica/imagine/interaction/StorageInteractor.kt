@@ -1,4 +1,4 @@
-package com.kolo.gorskih.tica.imagine.storage
+package com.kolo.gorskih.tica.imagine.interaction
 
 import android.graphics.Bitmap
 import android.net.Uri
