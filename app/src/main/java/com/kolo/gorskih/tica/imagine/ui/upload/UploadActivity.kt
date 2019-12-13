@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.kolo.gorskih.tica.imagine.storage.StorageInteractor
+import com.kolo.gorskih.tica.imagine.interaction.StorageInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
