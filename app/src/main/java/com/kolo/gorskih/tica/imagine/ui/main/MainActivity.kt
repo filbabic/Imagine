@@ -3,6 +3,7 @@ package com.kolo.gorskih.tica.imagine.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +20,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
 import org.koin.android.ext.android.inject
 
+
 private const val REQUEST_CODE_IMAGE_CAPTURE = 51
+private const val REQUEST_CODE_GALLERY = 52
 const val KEY_PATH = "path"
 
 class MainActivity : AppCompatActivity() {
@@ -71,7 +74,16 @@ class MainActivity : AppCompatActivity() {
             )
         }
         ivGallery.setOnClickListener {
-            //TODO: open gallery for selecting a picture
+            val galleryIntent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            intent.type = "image/*"
+            startActivityForResult(
+                Intent.createChooser(galleryIntent, "Select Picture"),
+                REQUEST_CODE_GALLERY
+            )
+
         }
         ivMenu.setOnClickListener {
             drawerRoot.openDrawer(GravityCompat.START)
@@ -103,9 +115,13 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val filePath = data?.getStringExtra(KEY_PATH) ?: ""
 
-            if (filePath.isNotBlank()) { // TODO this goes to edit instead, but for testing purposes
-                startActivity(UploadActivity.newIntent(this, filePath))
+            if (filePath.isNotBlank()) {
+                startActivity(UploadActivity.newIntent(this, filePath, false))
             }
+        } else if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK) {
+            val selectedImage = data?.data ?: return
+
+            startActivity(UploadActivity.newIntent(this, selectedImage.toString(), true))
         }
     }
 }
