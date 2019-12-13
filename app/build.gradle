@@ -60,6 +60,10 @@ dependencies {
     //Airbnb Epoxy
     implementation "com.airbnb.android:epoxy:$epoxyVersion"
     kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
+
+    // DI
+    implementation "org.koin:koin-core:$koinVersion"
+    implementation "org.koin:koin-android:$koinVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'
