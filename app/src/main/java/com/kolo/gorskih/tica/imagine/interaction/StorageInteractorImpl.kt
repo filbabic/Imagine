@@ -46,12 +46,7 @@ class StorageInteractorImpl(
 
         val task = baseStorage
             .child(userId)
-            .child(
-                lastSegment
-                    .replace(".jpg", "")
-                    .replace(".jpeg", "")
-                    .replace(".png", "")
-            )
+            .child(lastSegment)
             .putFile(file)
 
         try {
