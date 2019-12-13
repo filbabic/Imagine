@@ -68,10 +68,8 @@ class CameraActivity : AppCompatActivity() {
         captureButton.setOnClickListener {
             val file = File(
                 externalMediaDirs.first(),
-                "${System.currentTimeMillis()}.jpg"
-            ).apply {
-
-            }
+                "${System.currentTimeMillis()}"
+            )
 
             imageCapture.takePicture(file, executor,
                 object : ImageCapture.OnImageSavedListener {
