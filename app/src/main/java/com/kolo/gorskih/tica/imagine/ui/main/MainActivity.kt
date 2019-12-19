@@ -8,16 +8,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.TypedEpoxyController
+import com.google.firebase.storage.StorageReference
 import com.kolo.gorskih.tica.imagine.Image
 import com.kolo.gorskih.tica.imagine.MainUI
 import com.kolo.gorskih.tica.imagine.R
 import com.kolo.gorskih.tica.imagine.interaction.AuthInteractor
+import com.kolo.gorskih.tica.imagine.interaction.StorageInteractor
 import com.kolo.gorskih.tica.imagine.ui.auth.activity.AuthActivity
 import com.kolo.gorskih.tica.imagine.ui.camera.CameraActivity
 import com.kolo.gorskih.tica.imagine.ui.upload.UploadActivity
 import com.kolo.gorskih.tica.imagine.ui.view_holders.imageItemModelHolder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -27,8 +32,9 @@ const val KEY_PATH = "path"
 
 class MainActivity : AppCompatActivity() {
 
-    private val controller: MainActivityController = MainActivityController()
+    private val controller: MainActivityController = MainActivityController(this::onItemClick)
     private val authInteractor: AuthInteractor by inject()
+    private val storageInteractor: StorageInteractor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,31 +48,20 @@ class MainActivity : AppCompatActivity() {
             setController(controller)
         }
         //TODO: Just mock, remove this after you load pictures from Firebase and send them to controller
-        val mainUI = MainUI(
-            listOf(
-                Image(
-                    1,
-                    "prva",
-                    "https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"
-                ),
-                Image(
-                    2,
-                    "druga s jako dugackim i lijepim nazivom jer smo mi samo lijepi i zgodni ",
-                    "https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"
-                ),
-                Image(
-                    3,
-                    "treca",
-                    "https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"
-                ),
-                Image(
-                    4,
-                    "Zadnja",
-                    "https://www.frontal.ba/img/s/750x400/upload/images/slikesenka/;aruga.jpg"
-                )
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val imagePaths = storageInteractor.getImagePaths()
+
+            val mainUI = MainUI(
+                imagePaths.mapIndexed { index, path ->
+                    Image(index, "", path)
+                }
             )
-        )
-        controller.setData(mainUI)
+
+            controller.setData(mainUI)
+        }
+
+
         ivCapture.setOnClickListener {
             startActivityForResult(
                 Intent(this, CameraActivity::class.java),
@@ -99,6 +94,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onItemClick(itemDownloadUrl: StorageReference) {
+        GlobalScope.launch {
+            val image = storageInteractor.downloadImage(itemDownloadUrl)
+
+            println(image?.byteCount)
+        }
+    }
+
 
     override fun onBackPressed() {
         if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
@@ -126,15 +129,16 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainActivityController : TypedEpoxyController<MainUI>() {
+class MainActivityController(private inline val onItemClick: (StorageReference) -> Unit) :
+    TypedEpoxyController<MainUI>() {
     override fun buildModels(data: MainUI) {
-        for (i in 1..20)
-            data.images.forEachIndexed { index, image ->
-                imageItemModelHolder {
-                    id(image.imageId)
-                    imageTitle(image.imageTitle)
-                    imageURL(image.imageURL)
-                }
+        data.images.forEach { image ->
+            imageItemModelHolder {
+                id(image.imageId)
+                imageTitle(image.imageTitle)
+                imageURL(image.imageURL)
+                listener { itemDownloadUrl -> onItemClick(itemDownloadUrl) }
             }
+        }
     }
 }
