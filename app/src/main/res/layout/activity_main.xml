@@ -49,6 +49,8 @@
 
         <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/epoxyMainActivity"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="26dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="50dp"
-            android:src="@drawable/ic_capture"
+            android:src="@drawable/ic_camera"
             app:layout_constraintBottom_toBottomOf="@id/btnCell"
             app:layout_constraintEnd_toEndOf="@id/btnCell"
             app:layout_constraintStart_toEndOf="@id/divider"
