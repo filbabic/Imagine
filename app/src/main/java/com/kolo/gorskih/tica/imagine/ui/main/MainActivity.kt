@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,11 +13,14 @@ import com.google.firebase.storage.StorageReference
 import com.kolo.gorskih.tica.imagine.Image
 import com.kolo.gorskih.tica.imagine.MainUI
 import com.kolo.gorskih.tica.imagine.R
+import com.kolo.gorskih.tica.imagine.common.EDITING_IMAGE_URL
 import com.kolo.gorskih.tica.imagine.interaction.AuthInteractor
 import com.kolo.gorskih.tica.imagine.interaction.StorageInteractor
 import com.kolo.gorskih.tica.imagine.ui.auth.activity.AuthActivity
 import com.kolo.gorskih.tica.imagine.ui.camera.CameraActivity
+import com.kolo.gorskih.tica.imagine.ui.edit.EditActivity
 import com.kolo.gorskih.tica.imagine.ui.upload.UploadActivity
+import com.kolo.gorskih.tica.imagine.ui.view_holders.emptySpaceModelHolder
 import com.kolo.gorskih.tica.imagine.ui.view_holders.imageItemModelHolder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
@@ -24,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-
 
 private const val REQUEST_CODE_IMAGE_CAPTURE = 51
 private const val REQUEST_CODE_GALLERY = 52
@@ -47,20 +50,11 @@ class MainActivity : AppCompatActivity() {
             setLayoutManager(layoutManager)
             setController(controller)
         }
-        //TODO: Just mock, remove this after you load pictures from Firebase and send them to controller
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val imagePaths = storageInteractor.getImagePaths()
+        initNavBar()
 
-            val mainUI = MainUI(
-                imagePaths.mapIndexed { index, path ->
-                    Image(index, "", path)
-                }
-            )
-
-            controller.setData(mainUI)
-        }
-
+        //gets images from firebase database and sets them in epoxy
+        getImages()
 
         ivCapture.setOnClickListener {
             startActivityForResult(
@@ -78,7 +72,6 @@ class MainActivity : AppCompatActivity() {
                 Intent.createChooser(galleryIntent, "Select Picture"),
                 REQUEST_CODE_GALLERY
             )
-
         }
         ivMenu.setOnClickListener {
             drawerRoot.openDrawer(GravityCompat.START)
@@ -94,14 +87,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getImages()
+    }
+
     private fun onItemClick(itemDownloadUrl: StorageReference) {
         GlobalScope.launch {
             val image = storageInteractor.downloadImage(itemDownloadUrl)
-
             println(image?.byteCount)
+            val intent = Intent(this@MainActivity, EditActivity::class.java)
+            intent.putExtra(EDITING_IMAGE_URL,itemDownloadUrl.toString())
+            startActivity(intent)
         }
     }
 
+    private fun initNavBar(){
+        emailText.text = authInteractor.getUserEmail()
+    }
+
+    private fun getImages(){
+        GlobalScope.launch(Dispatchers.Main) {
+            progressBar.visibility = View.VISIBLE
+            val imagePaths = storageInteractor.getImagePaths()
+            val mainUI = MainUI(
+                imagePaths.mapIndexed { index, path ->
+                    Image(index, path.name, path)
+                }
+            )
+            uploadedImagesNumber.text = mainUI.images.size.toString()
+            progressBar.visibility = View.GONE
+            controller.setData(mainUI)
+        }
+    }
 
     override fun onBackPressed() {
         if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
@@ -139,6 +157,9 @@ class MainActivityController(private inline val onItemClick: (StorageReference) 
                 imageURL(image.imageURL)
                 listener { itemDownloadUrl -> onItemClick(itemDownloadUrl) }
             }
+        }
+        emptySpaceModelHolder {
+            id("emptySpace")
         }
     }
 }

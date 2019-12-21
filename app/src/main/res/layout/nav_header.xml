@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:layout_marginTop="20dp"
     android:background="@android:color/white">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/headerCard"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:backgroundTint="@color/cloud_burst_blue_1C2"
         android:elevation="8dp"
         app:cardCornerRadius="0dp"
@@ -30,7 +31,8 @@
                 android:layout_gravity="start"
                 android:layout_margin="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_user"/>
 
             <TextView
                 android:id="@+id/emailText"
@@ -39,8 +41,10 @@
                 android:layout_gravity="start"
                 android:layout_margin="16dp"
                 android:gravity="start"
-                android:textColor="@color/gallery_white_EBE"
-                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:maxLines="2"
+                android:ellipsize="end"
+                style="@style/input_tundra_nunito_20"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/userAvatar"
                 tools:text="test@test_mail.com" />
@@ -57,7 +61,7 @@
         android:text="@string/uploaded_images"
         android:textAllCaps="true"
         android:textColor="@color/cloud_burst_blue_1C2"
-        android:textSize="20sp"
+        style="@style/input_tundra_nunito_20"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerCard" />
@@ -71,6 +75,7 @@
         android:layout_marginTop="8dp"
         android:gravity="start"
         android:textAllCaps="true"
+        android:fontFamily="@font/nunito_regular"
         android:textColor="@color/cloud_burst_blue_1C2"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +91,7 @@
         android:background="@drawable/rounded_button"
         android:text="@string/log_out"
         android:textColor="@color/gallery_white_EBE"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -27,6 +27,7 @@
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.camera.CameraActivity" />
         <activity android:name=".ui.upload.UploadActivity" />
+        <activity android:name=".ui.edit.EditActivity" />
     </application>
 
 </manifest>
