@@ -11,6 +11,6 @@ import org.koin.dsl.module
  * Loads all the interaction dependencies for Firebase.
  */
 fun interactionModule() = module {
-    single { StorageInteractorImpl(get(), get(), androidContext()) as StorageInteractor }
+    single { StorageInteractorImpl(get(), get(), get(), androidContext()) as StorageInteractor }
     single { AuthInteractorImpl(get()) as AuthInteractor }
 }

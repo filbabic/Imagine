@@ -5,56 +5,99 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Implementation for [StorageInteractor].
  */
 class StorageInteractorImpl(
-    private val baseStorage: StorageReference,
-    private val firebaseAuth: FirebaseAuth,
+    private val firebaseStorage: FirebaseStorage,
+    private val database: FirebaseDatabase,
+    private val authInteractor: AuthInteractor,
     private val context: Context
 ) : StorageInteractor {
 
-    override suspend fun downloadImage(imagePath: String): Bitmap? = withContext(Dispatchers.IO) {
-        val file = File(
-            context.externalMediaDirs.first(),
-            imagePath
-        )
+    override suspend fun downloadImage(imagePath: StorageReference): Bitmap? =
+        withContext(Dispatchers.IO) {
+            val reference = firebaseStorage.getReferenceFromUrl(imagePath.toString())
 
-        val fileDownloadTask = baseStorage.child(imagePath)
-            .getFile(file)
+            val file = File(
+                context.externalMediaDirs.first(),
+                "${reference.name}.jpg"
+            )
 
-        try {
-            Tasks.await(fileDownloadTask)
-            // once downloaded, pull out as a bitmap
+            val fileDownloadTask = reference.getFile(file)
 
-            BitmapFactory.decodeFile(imagePath)
-        } catch (error: Throwable) {
-            error.printStackTrace()
-            null
+            try {
+                Tasks.await(fileDownloadTask)
+                // once downloaded, pull out as a bitmap
+
+                BitmapFactory.decodeFile(file.absolutePath)
+            } catch (error: Throwable) {
+                error.printStackTrace()
+                null
+            }
         }
-    }
 
-    override suspend fun uploadImage(file: Uri): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun uploadImage(file: Uri): Boolean = withContext(Dispatchers.IO) {
         val lastSegment = file.lastPathSegment ?: return@withContext false
-        val userId = firebaseAuth.currentUser?.uid ?: "unknown"
+        val userId = authInteractor.getUserId()
 
-        val task = baseStorage
+        val location = firebaseStorage
+            .reference
             .child(userId)
             .child(lastSegment)
-            .putFile(file)
+
+        val task = location.putFile(file)
 
         try {
             val result = Tasks.await(task)
+            val downloadUrl = location.toString()
 
-            result?.task?.isSuccessful ?: false
+            Tasks.await(
+                database
+                    .reference
+                    .child(authInteractor.getUserId())
+                    .push()
+                    .setValue(downloadUrl)
+            )
+
+            result?.task?.isSuccessful == true
         } catch (throwable: Throwable) {
             false
         }
     }
+
+    override suspend fun getImagePaths(): List<StorageReference> =
+        suspendCoroutine { continuation ->
+
+            database
+                .reference
+                .child(authInteractor.getUserId())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        continuation.resumeWithException(databaseError.toException())
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val children = snapshot
+                            .children
+                            .mapNotNull { it.getValue(String::class.java) }
+                            .map { url -> firebaseStorage.getReferenceFromUrl(url) }
+
+                        continuation.resume(children)
+                    }
+                })
+        }
 }
