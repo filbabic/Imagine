@@ -1,5 +1,6 @@
 package com.kolo.gorskih.tica.imagine.ui.view_holders
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
@@ -19,6 +20,8 @@ abstract class ImageItemModelHolder : EpoxyModelWithHolder<ImageItemHolder>() {
 
     @EpoxyAttribute
     lateinit var listener: (StorageReference) -> Unit
+
+    @EpoxyAttribute lateinit var longClickListener : View.OnLongClickListener
 
     override fun bind(holder: ImageItemHolder) {
         holder.title.text = imageTitle

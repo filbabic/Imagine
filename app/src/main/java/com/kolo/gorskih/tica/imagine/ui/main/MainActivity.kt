@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             val image = storageInteractor.downloadImage(itemDownloadUrl)
             println(image?.byteCount)
             val intent = Intent(this@MainActivity, EditActivity::class.java)
-            intent.putExtra(EDITING_IMAGE_URL,itemDownloadUrl.toString())
+            intent.putExtra(EDITING_IMAGE_URL,itemDownloadUrl.path)
             startActivity(intent)
         }
     }
