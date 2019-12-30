@@ -12,14 +12,10 @@ import androidx.core.app.ActivityCompat
 import com.google.firebase.storage.StorageReference
 import com.kolo.gorskih.tica.imagine.R
 import com.kolo.gorskih.tica.imagine.common.EDITING_IMAGE_URL
-import com.kolo.gorskih.tica.imagine.common.ImageStorageManager
 import com.kolo.gorskih.tica.imagine.common.toast
-import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter
-import jp.co.cyberagent.android.gpuimage.util.Rotation
 import kotlinx.android.synthetic.main.activity_edit.*
 import org.koin.android.ext.android.inject
-import java.io.File
 
 
 class EditActivity : AppCompatActivity() {
@@ -37,17 +33,14 @@ class EditActivity : AppCompatActivity() {
     private fun initView(){
         if(checkPermissionForReadExternalStorage()){
             val path = firebaseStorageReference.child(intent.getStringExtra(EDITING_IMAGE_URL)!!)
-
-            //this is temp, just to see what can be done, it
-            val gpuImage = GPUImage(this)
-            val tempFile = File(this.externalMediaDirs.first(), System.currentTimeMillis().toString())
-            path.getFile(tempFile).addOnSuccessListener {
-                val saveBitmap = BitmapFactory.decodeFile(tempFile.absolutePath)
-                gpuImage.setFilter(GPUImageSepiaToneFilter())
-                gpuImage.setImage(saveBitmap)
-                val imageFileName = System.currentTimeMillis().toString()
-                ImageStorageManager.saveToInternalStorage(this,gpuImage.bitmapWithFilterApplied,imageFileName)
-                ivEditImage.setImageBitmap(ImageStorageManager.getImageFromInternalStorage(this,imageFileName))
+            path.downloadUrl.addOnSuccessListener {
+                gpuImageView.setImage(it)
+                gpuImageView.setFilter(GPUImageSepiaToneFilter())
+                try {
+                    gpuImageView.saveToPictures("GPUImageine","firstEver.png",null)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }else{
             requestPermissionForReadExternalStorage()
