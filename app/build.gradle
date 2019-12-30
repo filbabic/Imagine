@@ -66,6 +66,9 @@ dependencies {
     // DI
     implementation "org.koin:koin-core:$koinVersion"
     implementation "org.koin:koin-android:$koinVersion"
+
+    //GPUImage
+    implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'
