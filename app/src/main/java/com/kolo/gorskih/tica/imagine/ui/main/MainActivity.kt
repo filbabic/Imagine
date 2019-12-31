@@ -94,19 +94,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun onItemClick(itemDownloadUrl: StorageReference) {
         GlobalScope.launch {
-            val image = storageInteractor.downloadImage(itemDownloadUrl)
+            val (path, image) = storageInteractor.downloadImage(itemDownloadUrl)
             println(image?.byteCount)
+
             val intent = Intent(this@MainActivity, EditActivity::class.java)
-            intent.putExtra(EDITING_IMAGE_URL,itemDownloadUrl.path)
+            intent.putExtra(EDITING_IMAGE_URL, path)
             startActivity(intent)
         }
     }
 
-    private fun initNavBar(){
+    private fun initNavBar() {
         emailText.text = authInteractor.getUserEmail()
     }
 
-    private fun getImages(){
+    private fun getImages() {
         GlobalScope.launch(Dispatchers.Main) {
             progressBar.visibility = View.VISIBLE
             val imagePaths = storageInteractor.getImagePaths()

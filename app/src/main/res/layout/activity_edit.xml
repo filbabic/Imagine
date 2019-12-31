@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <jp.co.cyberagent.android.gpuimage.GPUImageView
-        android:id="@+id/gpuImageView"
+    <ja.burhanrashid52.photoeditor.PhotoEditorView
+        android:id="@+id/photoEditorView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:gpuimage_show_loading="false"
-        app:gpuimage_surface_type="texture_view" /> <!-- surface_view or texture_view -->
+        android:layout_height="match_parent" /> <!-- surface_view or texture_view -->
 
-    <Button
+    <ImageButton
         android:id="@+id/btnEditPixel"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="..."
         android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_colorize_black_24dp"
+        android:textColor="#FFF"
         app:layout_constraintBottom_toTopOf="@+id/btnCropResize"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnCropResize"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
-        android:text="^^"
         android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_crop_free_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnFilters"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="F"
         android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_face_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCropResize" />
 
@@ -50,14 +48,14 @@
         android:id="@+id/btnUpload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:text="Upload"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:textColor="@color/gallery_white_EBE"
-        android:textStyle="bold"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnCancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -66,14 +64,14 @@
         android:id="@+id/btnCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:text="Cancel"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:textColor="@color/gallery_white_EBE"
-        android:textStyle="bold"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

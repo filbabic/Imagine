@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.kolo.gorskih.tica.imagine.common.ImageStorageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -28,7 +29,7 @@ class StorageInteractorImpl(
     private val context: Context
 ) : StorageInteractor {
 
-    override suspend fun downloadImage(imagePath: StorageReference): Bitmap? =
+    override suspend fun downloadImage(imagePath: StorageReference): Pair<String?, Bitmap?> =
         withContext(Dispatchers.IO) {
             val reference = firebaseStorage.getReferenceFromUrl(imagePath.toString())
 
@@ -43,10 +44,11 @@ class StorageInteractorImpl(
                 Tasks.await(fileDownloadTask)
                 // once downloaded, pull out as a bitmap
 
-                BitmapFactory.decodeFile(file.absolutePath)
+                file.absolutePath to BitmapFactory.decodeFile(file.absolutePath)
             } catch (error: Throwable) {
                 error.printStackTrace()
-                null
+
+                null to null
             }
         }
 
@@ -100,4 +102,24 @@ class StorageInteractorImpl(
                     }
                 })
         }
+
+    override suspend fun getDownloadedImageFromPath(imagePath: String): Bitmap? {
+        return try {
+            val file = File(imagePath)
+
+            BitmapFactory.decodeFile(file.absolutePath)
+        } catch (error: Throwable) {
+            null
+        }
+    }
+
+    override suspend fun saveLocalImageToFile(bitmap: Bitmap): File {
+        val path = ImageStorageManager.saveToInternalStorage(
+            context,
+            bitmap,
+            "${System.currentTimeMillis()}"
+        )
+
+        return File(path)
+    }
 }

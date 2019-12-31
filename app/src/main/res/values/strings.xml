@@ -22,4 +22,5 @@
     <string name="uploaded_images">Uploaded images</string>
     <string name="log_out">LOG OUT</string>
     <string name="uploading">Uploading...</string>
+    <string name="rgb">RGB</string>
 </resources>

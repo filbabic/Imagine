@@ -8,11 +8,15 @@ import java.io.FileInputStream
 
 class ImageStorageManager {
     companion object {
-        fun saveToInternalStorage(context: Context, bitmapImage: Bitmap, imageFileName: String): String {
+        fun saveToInternalStorage(
+            context: Context,
+            bitmapImage: Bitmap,
+            imageFileName: String
+        ): String {
             context.openFileOutput(imageFileName, Context.MODE_PRIVATE).use { fos ->
                 bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
             }
-            return context.filesDir.absolutePath
+            return File(context.filesDir, imageFileName).absolutePath
         }
 
         fun getImageFromInternalStorage(context: Context, imageFileName: String): Bitmap? {
