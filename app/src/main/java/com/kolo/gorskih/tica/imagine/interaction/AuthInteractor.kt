@@ -19,6 +19,8 @@ interface AuthInteractor {
 
     fun getUserId(): String
 
+    fun getUserEmail():String
+
     fun isLoggedIn(): Boolean
 
     fun logOut()

@@ -37,9 +37,11 @@ class AuthInteractorImpl(private val firebaseAuth: FirebaseAuth) : AuthInteracto
             }
     }
 
-    override fun logOut() = firebaseAuth.signOut()
+    override fun getUserId(): String = firebaseAuth.currentUser?.uid ?: UNKNOWN_USER_ID
+
+    override fun getUserEmail(): String = firebaseAuth.currentUser!!.email!!
 
     override fun isLoggedIn(): Boolean = getUserId().isNotBlank() && getUserId() != UNKNOWN_USER_ID
 
-    override fun getUserId(): String = firebaseAuth.currentUser?.uid ?: UNKNOWN_USER_ID
+    override fun logOut() = firebaseAuth.signOut()
 }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "816192881495-u6mjlr408qtp9tehntr254ovv0k2maq1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kolo.gorskih.tica.imagine",
+            "certificate_hash": "8ca5483e719a171cb028c33d24ef87e6400c75ed"
+          }
+        },
+        {
           "client_id": "816192881495-mpqti4alk9mkqgv93se3gcrt7i3oqlu3.apps.googleusercontent.com",
           "client_type": 3
         }

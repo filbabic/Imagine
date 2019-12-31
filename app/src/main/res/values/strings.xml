@@ -21,4 +21,5 @@
     <string name="close">Close</string>
     <string name="uploaded_images">Uploaded images</string>
     <string name="log_out">LOG OUT</string>
+    <string name="uploading">Uploading...</string>
 </resources>
