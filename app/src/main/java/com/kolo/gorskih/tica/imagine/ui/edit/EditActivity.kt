@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.kolo.gorskih.tica.imagine.R
@@ -62,10 +63,6 @@ class EditActivity : AppCompatActivity() {
         photoEditor = PhotoEditor.Builder(this, photoEditorView)
             .setPinchTextScalable(true)
             .build()
-
-        photoEditor?.run {
-            setBrushDrawingMode(true)
-        }
     }
 
     private fun initListeners() {
@@ -73,11 +70,25 @@ class EditActivity : AppCompatActivity() {
         btnCancel.setOnClickListener { finish() }
 
         btnDraw.setOnClickListener { onDrawSelected() }
+        btnDraw.setOnLongClickListener { showColorPickerDialog() }
         btnFilters.setOnClickListener { showFiltersDialog() }
         btnEmoji.setOnClickListener { showEmojiDialog() }
 
         btnUndo.setOnClickListener { photoEditor?.undo() }
         btnRedo.setOnClickListener { photoEditor?.redo() }
+    }
+
+    private fun showColorPickerDialog(): Boolean {
+        val dialog = ColorPickerDialog().apply {
+            onColorPicked = ::onColorPicked
+        }
+
+        dialog.show(supportFragmentManager, "colors")
+        return true
+    }
+
+    private fun onColorPicked(@ColorInt color: Int) {
+        photoEditor?.brushColor = color
     }
 
     private fun showFiltersDialog() {

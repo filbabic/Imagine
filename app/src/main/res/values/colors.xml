@@ -8,4 +8,13 @@
     <color name="nepal_blue_8BA">#8BA3BF</color>
     <color name="gallery_white_EBE">#EBEBEB</color>
     <color name="cloud_burst_blue_1C2">#1C2541</color>
+    <color name="some_yellow">#FFFF66</color>
+
+    <color name="picker_blue">#546A76</color>
+    <color name="picker_green">#B4CEB3</color>
+    <color name="picker_pink">#FAD4D8</color>
+    <color name="picker_orange">#F19A3E</color>
+    <color name="picker_light_blue">#98D9C2</color>
+    <color name="picker_brown">#403233</color>
+    <color name="picker_marine_blue">#094D92</color>
 </resources>
