@@ -7,40 +7,40 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.kolo.gorskih.tica.imagine.R
-import ja.burhanrashid52.photoeditor.PhotoFilter
-import kotlinx.android.synthetic.main.dialog_filters.*
-
+import ja.burhanrashid52.photoeditor.PhotoEditor
+import kotlinx.android.synthetic.main.dialog_emoji.*
 
 /**
- * Shows a list of available filters, to apply to the image.
+ * Shows a list of emoji to pick, to add to the image.
  */
-class FiltersListDialog : DialogFragment() {
+class EmojiListDialog : DialogFragment() {
 
-    lateinit var onFilterSelected: (PhotoFilter) -> Unit
+    lateinit var onEmojiSelected: (String) -> Unit
 
-    private val filtersAdapter by lazy { PhotoFilterAdapter(::onFilterItemSelected) }
+    private val adapter by lazy { EmojiAdapter(::emojiSelected) }
+    private val emojis by lazy { PhotoEditor.getEmojis(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_filters, container, false)
+        return inflater.inflate(R.layout.dialog_emoji, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        emojiList.layoutManager = GridLayoutManager(requireContext(), 5)
+        emojiList.adapter = adapter
 
-        filtersList.layoutManager = LinearLayoutManager(context)
-        filtersList.adapter = filtersAdapter
-
-        filtersAdapter.setData(PhotoFilter.values().toList())
+        adapter.setData(emojis)
     }
 
-    private fun onFilterItemSelected(photoFilter: PhotoFilter) {
-        onFilterSelected(photoFilter)
+    private fun emojiSelected(emoji: String) {
+        onEmojiSelected(emoji)
+
         dismissAllowingStateLoss()
     }
 
@@ -50,7 +50,7 @@ class FiltersListDialog : DialogFragment() {
         val params: WindowManager.LayoutParams = dialog?.window?.attributes ?: return
         params.width = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            300f,
+            400f,
             resources.displayMetrics
         ).toInt()
 

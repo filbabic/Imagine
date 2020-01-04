@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.kolo.gorskih.tica.imagine.R
 import com.kolo.gorskih.tica.imagine.interaction.StorageInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -34,6 +35,7 @@ class UploadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_upload)
 
         val filePath = intent?.getStringExtra(KEY_FILE_PATH) ?: ""
         if (filePath.isBlank()) finish()
@@ -58,7 +60,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    fun getImagePathFromInputStreamUri(uri: Uri): String {
+    private fun getImagePathFromInputStreamUri(uri: Uri): String {
         var inputStream: InputStream? = null
         var filePath: String? = null
         val lastSegment = uri.lastPathSegment

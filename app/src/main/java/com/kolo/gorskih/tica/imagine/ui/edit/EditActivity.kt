@@ -1,10 +1,8 @@
 package com.kolo.gorskih.tica.imagine.ui.edit
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +11,7 @@ import com.kolo.gorskih.tica.imagine.R
 import com.kolo.gorskih.tica.imagine.common.EDITING_IMAGE_URL
 import com.kolo.gorskih.tica.imagine.common.toast
 import com.kolo.gorskih.tica.imagine.interaction.StorageInteractor
+import com.kolo.gorskih.tica.imagine.ui.upload.UploadActivity
 import ja.burhanrashid52.photoeditor.OnSaveBitmap
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoFilter
@@ -30,6 +29,8 @@ class EditActivity : AppCompatActivity() {
     private var currentImage: Bitmap? = null
     private var editImagePath: String = ""
     private var photoEditor: PhotoEditor? = null
+
+    private var isInDrawMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,12 +72,12 @@ class EditActivity : AppCompatActivity() {
         btnUpload.setOnClickListener { saveAndUploadImage() }
         btnCancel.setOnClickListener { finish() }
 
-        // TODO rename to draw
-        btnCropResize.setOnClickListener { showCropResizeDialog() }
+        btnDraw.setOnClickListener { onDrawSelected() }
         btnFilters.setOnClickListener { showFiltersDialog() }
+        btnEmoji.setOnClickListener { showEmojiDialog() }
 
-        // TODO rename to emoji
-        btnEditPixel.setOnClickListener { showEmojiDialog() }
+        btnUndo.setOnClickListener { photoEditor?.undo() }
+        btnRedo.setOnClickListener { photoEditor?.redo() }
     }
 
     private fun showFiltersDialog() {
@@ -87,14 +88,23 @@ class EditActivity : AppCompatActivity() {
         dialog.show(supportFragmentManager, "filters")
     }
 
-    // TODO replace with drawing + text on screen.
-    private fun showCropResizeDialog() {
+    private fun onDrawSelected() {
+        isInDrawMode = !isInDrawMode
+        photoEditor?.setBrushDrawingMode(isInDrawMode)
 
+        btnDraw.setImageResource(if (isInDrawMode) R.drawable.ic_cancel_white_24dp else R.drawable.ic_edit_white_24dp)
     }
 
-    // TODO show a grid of emoji and add them to the image, resize/rotate
     private fun showEmojiDialog() {
+        val dialog = EmojiListDialog().apply {
+            onEmojiSelected = ::onEmojiSelected
+        }
 
+        dialog.show(supportFragmentManager, "emoji")
+    }
+
+    private fun onEmojiSelected(emoji: String) {
+        photoEditor?.addEmoji(emoji)
     }
 
     private fun saveAndUploadImage() {
@@ -108,23 +118,25 @@ class EditActivity : AppCompatActivity() {
 
                 GlobalScope.launch {
                     val localFile = storageInteractor.saveLocalImageToFile(image)
-                    launch(Dispatchers.Main) { toast(getString(R.string.uploading)) }
 
-                    val isSuccessful = storageInteractor.uploadImage(Uri.fromFile(localFile))
-
-                    launch(Dispatchers.Main) {
-                        if (isSuccessful) {
-                            toast("Upload finished")
-
-                            setResult(Activity.RESULT_OK)
-                            finish()
-                        } else {
-                            toast("Upload failed")
-                        }
-                    }
+                    startUpload(localFile.absolutePath)
                 }
             }
         })
+    }
+
+    private fun startUpload(filePath: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            startActivity(
+                UploadActivity.newIntent(
+                    this@EditActivity,
+                    filePath,
+                    false
+                )
+            )
+
+            finish()
+        }
     }
 
     private fun onFilterSelected(photoFilter: PhotoFilter) {

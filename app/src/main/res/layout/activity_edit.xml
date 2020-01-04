@@ -11,24 +11,49 @@
         android:layout_height="match_parent" /> <!-- surface_view or texture_view -->
 
     <ImageButton
-        android:id="@+id/btnEditPixel"
+        android:id="@+id/btnUndo"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:textColor="@color/gallery_white_EBE"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnRedo"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_arrow_forward_white_24dp"
+        android:textColor="@color/gallery_white_EBE"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnEmoji"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
-        android:src="@drawable/ic_colorize_black_24dp"
-        android:textColor="#FFF"
-        app:layout_constraintBottom_toTopOf="@+id/btnCropResize"
+        android:src="@drawable/ic_mood_white_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnDraw"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnCropResize"
+        android:id="@+id/btnDraw"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_button"
-        android:src="@drawable/ic_crop_free_white_24dp"
+        android:src="@drawable/ic_edit_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +67,7 @@
         android:background="@drawable/rounded_button"
         android:src="@drawable/ic_face_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCropResize" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDraw" />
 
     <Button
         android:id="@+id/btnUpload"
